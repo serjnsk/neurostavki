@@ -9,15 +9,14 @@ RUN npm ci
 # Copy source
 COPY . .
 
-# Generate Prisma client
+# Generate Prisma client and build
 RUN npx prisma generate
-
-# Build
 RUN npm run build
 
-# Setup database
-RUN npx prisma db push
-
+# Expose port (Railway provides PORT env var)
+ENV PORT=3000
 EXPOSE 3000
 
-CMD ["npm", "start"]
+# Start command - prisma db push happens at runtime
+CMD npx prisma db push --accept-data-loss && npm start
+
