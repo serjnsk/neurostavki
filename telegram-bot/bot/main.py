@@ -7,6 +7,7 @@ from aiogram.enums import ParseMode
 from bot.config import get_settings
 from bot.database import init_db
 from bot.handlers.start import router as start_router
+from bot.handlers.admin import router as admin_router
 
 # Configure logging
 logging.basicConfig(
@@ -31,6 +32,7 @@ async def main():
     
     # Register routers
     dp.include_router(start_router)
+    dp.include_router(admin_router)
     
     # Initialize database
     logger.info("Initializing database...")
