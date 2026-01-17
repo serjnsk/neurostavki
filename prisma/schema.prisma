@@ -1,0 +1,81 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Lead {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  phone     String?
+  message   String?
+  createdAt DateTime @default(now())
+}
+
+model LandingContent {
+  id        Int      @id @default(autoincrement())
+  
+  // Element 1: Title
+  titleText       String   @default("Ежедневные прогнозы на спорт от нейросети")
+  titleFont       String   @default("Poppins")
+  titleSize       String   @default("45px")
+  titleWeight     String   @default("800")
+  
+  // Element 2: Left text (with list support)
+  leftText        String   @default("НейроСтавки анализирует тысячи матчей в 6 видах спорта.\n✓ 3 прогноза в день, 7 дней в неделю\n✓ 87% точность прогнозов\n✓ 3 000+ довольных пользователей")
+  leftFont        String   @default("Poppins")
+  leftSize        String   @default("16px")
+  leftWeight      String   @default("400")
+  
+  // Element 3: Button
+  buttonText      String   @default("Получить прогноз")
+  buttonLink      String   @default("#")
+  buttonFont      String   @default("Poppins")
+  buttonSize      String   @default("20px")
+  buttonWeight    String   @default("700")
+  
+  // Element 4: Image
+  imageUrl        String   @default("/hero-collage.png")
+  
+  // Element 5: Bottom title
+  bottomTitle     String   @default("ИИ обучен на анализе 30 088 матчей")
+  bottomTitleFont String   @default("Poppins")
+  bottomTitleSize String   @default("24px")
+  bottomTitleWeight String @default("700")
+  
+  // Element 6: Bottom text
+  bottomText      String   @default("Построен на TensorFlow, ChatGPT 5.0 и Keras.io")
+  bottomTextFont  String   @default("Poppins")
+  bottomTextSize  String   @default("14px")
+  bottomTextWeight String  @default("400")
+  
+  updatedAt DateTime @updatedAt
+}
+
+model Admin {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+}
+
+model TelegramSubscriber {
+  id                Int      @id @default(autoincrement())
+  telegramId        BigInt   @unique @map("telegram_id")
+  username          String?
+  firstName         String?  @map("first_name")
+  lastName          String?  @map("last_name")
+  sports            Json     @default("[]")
+  geo               String   @default("all")
+  isActive          Boolean  @default(true) @map("is_active")
+  onboardingComplete Boolean @default(false) @map("onboarding_complete")
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+  
+  @@map("telegram_subscribers")
+}
+
