@@ -2,15 +2,17 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Install dependencies
+# Copy package files and prisma schema (needed for postinstall)
 COPY package*.json ./
+COPY prisma ./prisma/
+
+# Install dependencies (postinstall runs prisma generate)
 RUN npm ci
 
-# Copy source
+# Copy rest of source
 COPY . .
 
-# Generate Prisma client and build
-RUN npx prisma generate
+# Build the application
 RUN npm run build
 
 # Expose port (Railway provides PORT env var)
@@ -19,4 +21,5 @@ EXPOSE 3000
 
 # Start command - prisma db push happens at runtime
 CMD npx prisma db push --accept-data-loss && npm start
+
 
