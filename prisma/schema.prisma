@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
@@ -63,19 +63,4 @@ model Admin {
   createdAt DateTime @default(now())
 }
 
-model TelegramSubscriber {
-  id                Int      @id @default(autoincrement())
-  telegramId        BigInt   @unique @map("telegram_id")
-  username          String?
-  firstName         String?  @map("first_name")
-  lastName          String?  @map("last_name")
-  sports            Json     @default("[]")
-  geo               String   @default("all")
-  isActive          Boolean  @default(true) @map("is_active")
-  onboardingComplete Boolean @default(false) @map("onboarding_complete")
-  createdAt         DateTime @default(now()) @map("created_at")
-  updatedAt         DateTime @updatedAt @map("updated_at")
-  
-  @@map("telegram_subscribers")
-}
 

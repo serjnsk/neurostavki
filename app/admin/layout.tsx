@@ -3,13 +3,12 @@
 import { useEffect, useState } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import Link from 'next/link'
-import { Brain, LayoutDashboard, FileText, LogOut, Users } from 'lucide-react'
+import { Brain, LayoutDashboard, FileText, LogOut } from 'lucide-react'
 import styles from './admin.module.css'
 
 const navItems = [
     { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
-    { href: '/admin/content', label: 'Контент', icon: FileText },
-    { href: '/admin/subscribers', label: 'Подписчики', icon: Users }
+    { href: '/admin/content', label: 'Контент', icon: FileText }
 ]
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
