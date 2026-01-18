@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import { verifyToken, getTokenFromRequest, unauthorizedResponse } from '@/lib/auth'
+import { verifyToken, getTokenFromRequest, unauthorized } from '@/lib/auth'
 
 export async function GET(request: NextRequest) {
     const token = getTokenFromRequest(request)
     if (!token || !verifyToken(token)) {
-        return unauthorizedResponse()
+        return unauthorized()
     }
 
     try {
@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
 export async function PUT(request: NextRequest) {
     const token = getTokenFromRequest(request)
     if (!token || !verifyToken(token)) {
-        return unauthorizedResponse()
+        return unauthorized()
     }
 
     try {

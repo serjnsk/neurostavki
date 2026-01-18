@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { writeFile } from 'fs/promises'
 import path from 'path'
-import { verifyToken, getTokenFromRequest, unauthorizedResponse } from '@/lib/auth'
+import { verifyToken, getTokenFromRequest, unauthorized } from '@/lib/auth'
 
 export async function POST(request: NextRequest) {
     // Verify auth
     const token = getTokenFromRequest(request)
     if (!token || !verifyToken(token)) {
-        return unauthorizedResponse()
+        return unauthorized()
     }
 
     try {

@@ -1,36 +1,15 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
-export async function GET(request: NextRequest) {
+export async function GET() {
     try {
-        const { searchParams } = new URL(request.url)
-        const section = searchParams.get('section')
+        const content = await prisma.landingContent.findFirst()
 
-        if (section) {
-            const content = await prisma.contentSection.findUnique({
-                where: { sectionKey: section }
-            })
-
-            if (!content) {
-                return NextResponse.json({ error: 'Section not found' }, { status: 404 })
-            }
-
-            return NextResponse.json({
-                section: content.sectionKey,
-                content: JSON.parse(content.content),
-                updatedAt: content.updatedAt
-            })
+        if (!content) {
+            return NextResponse.json({ error: 'Content not found' }, { status: 404 })
         }
 
-        // Return all sections
-        const sections = await prisma.contentSection.findMany()
-        const result: Record<string, unknown> = {}
-
-        for (const s of sections) {
-            result[s.sectionKey] = JSON.parse(s.content)
-        }
-
-        return NextResponse.json(result)
+        return NextResponse.json(content)
     } catch (error) {
         console.error('Content fetch error:', error)
         return NextResponse.json(
