@@ -95,15 +95,7 @@ async def cmd_start(message: Message):
             last_name=user.last_name,
         )
         
-        # Check if user already completed onboarding
-        if subscriber.onboarding_complete:
-            await message.answer(
-                "👋 <b>С возвращением!</b>\n\n"
-                "Вы уже записаны на ранний доступ. "
-                "Мы обязательно сообщим, когда сервис будет готов!",
-                parse_mode="HTML"
-            )
-            return
+        # Allow re-running /start to update preferences
     
     await message.answer(
         WELCOME_MESSAGE,

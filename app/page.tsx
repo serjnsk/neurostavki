@@ -2,6 +2,9 @@ import { prisma } from '@/lib/prisma'
 import Header from '@/components/Header'
 import Hero from '@/components/Hero'
 
+// Revalidate page every 60 seconds to pick up content changes
+export const revalidate = 60
+
 async function getLandingContent() {
     const content = await prisma.landingContent.findFirst()
 
